@@ -1,0 +1,306 @@
+---
+- name: Install Clickhouse
+  hosts: clickhouse
+  become: true
+  vars:
+    clickhouse_version: "22.8.9.24"
+    architecture: "amd64"
+
+  tasks:
+    - name: Install curl and tar
+      ansible.builtin.apt:
+        name:
+          - curl
+          - tar
+        state: present
+        update_cache: true
+
+    - name: Create temp directory
+      ansible.builtin.file:
+        path: /tmp/clickhouse
+        state: directory
+        mode: '0755'
+
+    - name: Download ClickHouse common-static tgz
+      ansible.builtin.shell: |
+        curl -L -o /tmp/clickhouse/clickhouse-common-static.tgz \
+        "https://packages.clickhouse.com/tgz/stable/clickhouse-common-static-{{ clickhouse_version }}-{{ architecture }}.tgz"
+      args:
+        creates: /tmp/clickhouse/clickhouse-common-static.tgz
+
+    - name: Download ClickHouse server tgz
+      ansible.builtin.shell: |
+        curl -L -o /tmp/clickhouse/clickhouse-server.tgz \
+        "https://packages.clickhouse.com/tgz/stable/clickhouse-server-{{ clickhouse_version }}-{{ architecture }}.tgz"
+      args:
+        creates: /tmp/clickhouse/clickhouse-server.tgz
+
+    - name: Download ClickHouse client tgz
+      ansible.builtin.shell: |
+        curl -L -o /tmp/clickhouse/clickhouse-client.tgz \
+        "https://packages.clickhouse.com/tgz/stable/clickhouse-client-{{ clickhouse_version }}-{{ architecture }}.tgz"
+      args:
+        creates: /tmp/clickhouse/clickhouse-client.tgz
+
+    - name: Extract common-static with tar
+      ansible.builtin.shell: |
+        tar -xzf /tmp/clickhouse/clickhouse-common-static.tgz -C /tmp/clickhouse/
+      args:
+        creates: /tmp/clickhouse/clickhouse-common-static-{{ clickhouse_version }}/install/doinst.sh
+
+    - name: Check if ClickHouse is already installed
+      ansible.builtin.stat:
+        path: /usr/bin/clickhouse
+      register: clickhouse_installed
+
+    - name: Install common-static
+      ansible.builtin.shell: |
+        set -o pipefail
+        cd /tmp/clickhouse/clickhouse-common-static-{{ clickhouse_version }}/
+        sh install/doinst.sh
+      args:
+        warn: false
+        executable: /bin/bash
+      register: install_common
+      changed_when: install_common.rc == 0 and not clickhouse_installed.stat.exists
+      when: not clickhouse_installed.stat.exists
+
+    - name: Extract server with tar
+      ansible.builtin.shell: |
+        tar -xzf /tmp/clickhouse/clickhouse-server.tgz -C /tmp/clickhouse/
+      args:
+        creates: /tmp/clickhouse/clickhouse-server-{{ clickhouse_version }}/install/doinst.sh
+
+    - name: Install server
+      ansible.builtin.shell: |
+        set -o pipefail
+        cd /tmp/clickhouse/clickhouse-server-{{ clickhouse_version }}/
+        sh install/doinst.sh
+      args:
+        warn: false
+        executable: /bin/bash
+      register: install_server
+      changed_when: install_server.rc == 0 and not clickhouse_installed.stat.exists
+      when: not clickhouse_installed.stat.exists
+
+    - name: Extract client with tar
+      ansible.builtin.shell: |
+        tar -xzf /tmp/clickhouse/clickhouse-client.tgz -C /tmp/clickhouse/
+      args:
+        creates: /tmp/clickhouse/clickhouse-client-{{ clickhouse_version }}/install/doinst.sh
+
+    - name: Install client
+      ansible.builtin.shell: |
+        set -o pipefail
+        cd /tmp/clickhouse/clickhouse-client-{{ clickhouse_version }}/
+        sh install/doinst.sh
+      args:
+        warn: false
+        executable: /bin/bash
+      register: install_client
+      changed_when: install_client.rc == 0 and not clickhouse_installed.stat.exists
+      when: not clickhouse_installed.stat.exists
+
+    - name: Start ClickHouse
+      ansible.builtin.systemd:
+        name: clickhouse-server
+        state: started
+        enabled: true
+
+    - name: Wait for ClickHouse to be ready (TCP port)
+      ansible.builtin.wait_for:
+        port: 9000
+        delay: 10
+        timeout: 60
+        host: localhost
+
+    - name: Wait for ClickHouse to be ready (HTTP port)
+      ansible.builtin.wait_for:
+        port: 8123
+        delay: 5
+        timeout: 30
+        host: localhost
+
+    - name: Create database
+      ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
+      register: create_db
+      failed_when: create_db.rc != 0 and create_db.rc != 82
+      changed_when: create_db.rc == 0
+
+    - name: Verify database created
+      ansible.builtin.command: "clickhouse-client -q 'show databases;'"
+      register: show_dbs
+      changed_when: false
+
+    - name: Display databases
+      ansible.builtin.debug:
+        msg: "Databases: {{ show_dbs.stdout_lines }}"
+
+- name: Install and configure Vector
+  hosts: vector
+  become: true
+  vars:
+    vector_install_dir: "/opt/vector"
+    vector_config_dir: "/etc/vector"
+    vector_user: "vector"
+    vector_group: "vector"
+
+  handlers:
+    - name: Restart Vector
+      ansible.builtin.systemd:
+        name: vector
+        state: restarted
+        daemon_reload: true
+
+  tasks:
+    - name: Install curl
+      ansible.builtin.apt:
+        name: curl
+        state: present
+        update_cache: true
+
+    - name: Create vector user
+      ansible.builtin.user:
+        name: "{{ vector_user }}"
+        system: true
+        create_home: false
+        shell: /bin/false
+
+    - name: Create vector directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+        owner: "{{ vector_user }}"
+        group: "{{ vector_group }}"
+      loop:
+        - "{{ vector_install_dir }}"
+        - "{{ vector_config_dir }}"
+
+    - name: Download Vector install script
+      ansible.builtin.shell: |
+        curl -L -o /tmp/install_vector.sh https://sh.vector.dev
+      args:
+        creates: /tmp/install_vector.sh
+
+    - name: Make Vector install script executable
+      ansible.builtin.file:
+        path: /tmp/install_vector.sh
+        mode: '0755'
+
+    - name: Install Vector using official script
+      ansible.builtin.shell: |
+        set -o pipefail
+        /tmp/install_vector.sh --prefix {{ vector_install_dir }} -y
+      args:
+        creates: "{{ vector_install_dir }}/bin/vector"
+        executable: /bin/bash
+      register: vector_install
+      changed_when: vector_install.rc == 0
+
+    - name: Create Vector config from template
+      ansible.builtin.template:
+        src: vector.toml.j2
+        dest: "{{ vector_config_dir }}/vector.toml"
+        mode: '0644'
+        owner: "{{ vector_user }}"
+        group: "{{ vector_group }}"
+      notify: Restart Vector
+
+    - name: Create systemd service for Vector
+      ansible.builtin.template:
+        src: vector.service.j2
+        dest: /etc/systemd/system/vector.service
+        mode: '0644'
+      notify: Restart Vector
+
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Start and enable Vector service
+      ansible.builtin.systemd:
+        name: vector
+        state: started
+        enabled: true
+
+    - name: Clean up temporary files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/tmp/install_vector.sh"
+        - "/tmp/vector-*.tar.gz"
+      failed_when: false
+      ignore_errors: true
+
+- name: Install and configure Lighthouse
+  hosts: lighthouse
+  become: true
+  vars:
+    lighthouse_version: "master"
+    lighthouse_install_dir: "/opt/lighthouse"
+    lighthouse_repo: "https://github.com/VKCOM/lighthouse.git"
+    nginx_user: www-data
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.systemd:
+        name: nginx
+        state: restarted
+
+  tasks:
+    - name: Install required packages (Ubuntu)
+      ansible.builtin.apt:
+        name:
+          - git
+          - nginx
+          - curl
+        state: present
+        update_cache: true
+
+    - name: Create lighthouse directory
+      ansible.builtin.file:
+        path: "{{ lighthouse_install_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Clone Lighthouse repository
+      ansible.builtin.git:
+        repo: "{{ lighthouse_repo }}"
+        dest: "{{ lighthouse_install_dir }}"
+        version: "{{ lighthouse_version }}"
+      register: lighthouse_clone
+
+    - name: Copy Lighthouse to web directory
+      ansible.builtin.copy:
+        src: "{{ lighthouse_install_dir }}/"
+        dest: "/var/www/html/lighthouse"
+        remote_src: true
+        mode: '0755'
+
+    - name: Create Nginx configuration for Lighthouse
+      ansible.builtin.template:
+        src: lighthouse.nginx.conf.j2
+        dest: /etc/nginx/sites-available/lighthouse
+        mode: '0644'
+      notify: Restart Nginx
+
+    - name: Enable Lighthouse site
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/lighthouse
+        dest: /etc/nginx/sites-enabled/lighthouse
+        state: link
+      notify: Restart Nginx
+
+    - name: Remove default Nginx site
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Restart Nginx
+
+    - name: Start and enable Nginx
+      ansible.builtin.systemd:
+        name: nginx
+        state: started
+        enabled: true

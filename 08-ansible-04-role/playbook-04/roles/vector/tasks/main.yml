@@ -1,0 +1,70 @@
+---
+- name: Install curl
+  ansible.builtin.apt:
+    name: curl
+    state: present
+    update_cache: true
+
+- name: Create vector user
+  ansible.builtin.user:
+    name: "{{ vector_user }}"
+    system: true
+    create_home: false
+    shell: /bin/false
+
+- name: Create vector directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ vector_user }}"
+    group: "{{ vector_group }}"
+  loop:
+    - "{{ vector_install_dir }}"
+    - "{{ vector_config_dir }}"
+
+- name: Download Vector install script
+  ansible.builtin.get_url:
+    url: "{{ vector_install_script_url }}"
+    dest: /tmp/install_vector.sh
+    mode: '0755'
+
+- name: Install Vector using official script
+  ansible.builtin.shell: |
+    /tmp/install_vector.sh --prefix {{ vector_install_dir }} -y
+  args:
+    creates: "{{ vector_install_dir }}/bin/vector"
+  register: vector_install
+  changed_when: vector_install.rc == 0
+
+- name: Create Vector config from template
+  ansible.builtin.template:
+    src: vector.toml.j2
+    dest: "{{ vector_config_dir }}/vector.toml"
+    mode: '0644'
+    owner: "{{ vector_user }}"
+    group: "{{ vector_group }}"
+  notify: Restart Vector
+
+- name: Create systemd service for Vector
+  ansible.builtin.template:
+    src: vector.service.j2
+    dest: /etc/systemd/system/vector.service
+    mode: '0644'
+  notify: Restart Vector
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Start and enable Vector service
+  ansible.builtin.systemd:
+    name: vector
+    state: started
+    enabled: true
+
+- name: Clean up temporary files
+  ansible.builtin.file:
+    path: /tmp/install_vector.sh
+    state: absent
+  ignore_errors: true

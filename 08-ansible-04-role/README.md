@@ -39,6 +39,13 @@
 
 ---
 
+
+https://github.com/Doskaks/vector-role
+
+https://github.com/Doskaks/lighthouse-role
+
+
+
 ### Как оформить решение задания
 
 Выполненное домашнее задание пришлите в виде ссылки на .md-файл в вашем репозитории.

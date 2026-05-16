@@ -46,15 +46,15 @@ https://github.com/Doskaks/vector-role
 
 Molecule test clichouse-role:
 
-![]()
+![1_Molecule%20test%20clichouse-role](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/1_Molecule%20test%20clichouse-role.jpg)
 
 Molecule vector-role:
 
-![]()
+![](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/2-5_Molecule%20vector-role%20(1).jpg)
 
-![]()
+![2-5_Molecule%20vector-role%20(2)](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/2-5_Molecule%20vector-role%20(2).jpg)
 
-![]()
+![2-5_Molecule%20vector-role%20(2)](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/2-5_Molecule%20vector-role%20(3).jpg)
 
 
 Тег решения v1.1.0 по Tox

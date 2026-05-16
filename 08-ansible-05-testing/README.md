@@ -59,6 +59,7 @@ Molecule vector-role:
 
 Тег решения v1.1.0 по Tox
 
+https://github.com/Doskaks/vector-role
 
 Tox vector-role:
 
@@ -67,13 +68,13 @@ Tox vector-role:
 - сценарий для molecule создан (podman или docker);
 - команда tox запускается (ошибки из-за окружения не критичны).
 
-![]()
+![3_tox](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/3_tox%20(1).jpg)
 
-![]()
+![3_tox](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/3_tox%20(2).jpg)
 
-![]()
+![3_tox](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/3_tox%20(3).jpg)
 
-![]()
+![3_tox](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-05-testing/3_tox%20(4).jpg)
 
 
 ## Необязательная часть

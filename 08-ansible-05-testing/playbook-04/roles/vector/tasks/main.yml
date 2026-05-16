@@ -1,0 +1,24 @@
+---
+- name: Install Vector on RedHat family
+  block:
+    - name: Download Vector rpm package
+      get_url:
+        url: "https://packages.timber.io/vector/0.21.0/vector-0.21.0-1.{{ ansible_architecture }}.rpm"
+        dest: "/tmp/vector.rpm"
+    - name: Install Vector rpm
+      yum:
+        name: "/tmp/vector.rpm"
+        state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install Vector on Debian family
+  block:
+    - name: Download Vector deb package
+      get_url:
+        url: "https://packages.timber.io/vector/0.21.0/vector-0.21.0-{{ ansible_architecture }}.deb"
+        dest: "/tmp/vector.deb"
+    - name: Install Vector deb
+      apt:
+        deb: "/tmp/vector.deb"
+        state: present
+  when: ansible_os_family == "Debian"

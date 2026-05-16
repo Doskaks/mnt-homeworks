@@ -1,0 +1,22 @@
+[sources.demo_logs]
+type = "demo_logs"
+format = "apache_common"
+interval = 1
+
+[sinks.clickhouse]
+type = "clickhouse"
+inputs = ["demo_logs"]
+host = "http://{{ clickhouse_host }}:8123"
+table = "logs"
+database = "logs"
+compression = "gzip"
+
+[sinks.clickhouse.auth]
+strategy = "basic"
+user = "default"
+password = ""
+
+[sinks.console]
+type = "console"
+inputs = ["demo_logs"]
+encoding.codec = "text"

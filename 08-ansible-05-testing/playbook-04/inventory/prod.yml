@@ -1,0 +1,23 @@
+---
+all:
+  children:
+    clickhouse:
+      hosts:
+        clickhouse-01:
+          ansible_host: 51.250.47.238
+          ansible_user: ch-nikolay
+          ansible_ssh_private_key_file: /home/vagrant/.ssh/ssh-key-1761056932263          
+    vector:
+      hosts:
+        vector-01:
+          ansible_host: 51.250.33.35
+          ansible_user: vector-nikolay
+          ansible_ssh_private_key_file: /home/vagrant/.ssh/ssh-key-1761056932263          
+    lighthouse:
+      hosts:
+        lighthouse-01:
+          ansible_host: 130.193.45.197
+          ansible_user: lh-nikolay
+          ansible_ssh_private_key_file: /home/vagrant/.ssh/ssh-key-1761056932263
+  vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

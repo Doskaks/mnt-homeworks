@@ -198,17 +198,17 @@ https://github.com/Doskaks/my_own_collection
 
 tar.gz архив:
 
-!![]()
+![tar.gz архив](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-06-module/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz)
 
 Скриншоты пунктов 4, 6, 15 и 16:
 
-![]()
+![4_Исполняемость модуля](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-06-module/4_%D0%98%D1%81%D0%BF%D0%BE%D0%BB%D0%BD%D1%8F%D0%B5%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8F.jpg)
 
-![]()
+![6_проверка на идемпотентность](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-06-module/6_%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%B8%D0%B4%D0%B5%D0%BC%D0%BF%D0%BE%D1%82%D0%B5%D0%BD%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C.jpg)
 
-![]()
+![15_установка collection из архива.jpg](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-06-module/15_%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0%20collection%20%D0%B8%D0%B7%20%D0%B0%D1%80%D1%85%D0%B8%D0%B2%D0%B0.jpg)
 
-![]()
+![16_запущенный playbook.jpg](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-06-module/16_%D0%B7%D0%B0%D0%BF%D1%83%D1%89%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20playbook.jpg)
 
 
 

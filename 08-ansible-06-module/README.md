@@ -197,9 +197,10 @@ if __name__ == '__main__':
 https://github.com/Doskaks/my_own_collection
 
 
-tar.gz архив:
+Ссылка на tar.gz архив:
 
-![tar.gz архив](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-06-module/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz)
+https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/08-ansible-06-module/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz
+
 
 Скриншоты пунктов 4, 6, 15 и 16:
 

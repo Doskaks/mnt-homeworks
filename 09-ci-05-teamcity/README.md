@@ -32,6 +32,8 @@
 19. В ответе пришлите ссылку на репозиторий.
 
 
+## Решение
+
 Ссылка на репозиторий:
 
 https://github.com/Doskaks/example-teamcity/tree/master
@@ -39,31 +41,31 @@ https://github.com/Doskaks/example-teamcity/tree/master
 
 1_2 fork autodetect
 
-!(1_2 fork autodetect)[https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/1_2%20fork%20autodetect.jpg]
+![1_2 fork autodetect](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/1_2%20fork%20autodetect.jpg)
 
 3_первая сборка
 
-!(3_первая сборка)[]
+![3_первая сборка](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/3_%D0%BF%D0%B5%D1%80%D0%B2%D0%B0%D1%8F%20%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0.jpg)
 
 5-7_сборка по master
 
-!(5-7_сборка по master)[]
+![5-7_сборка по master](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/3_%D0%BF%D0%B5%D1%80%D0%B2%D0%B0%D1%8F%20%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0.jpg)
 
 7_nexus сборка по master
 
-!(7_nexus сборка по master)[]
+![7_nexus сборка по master](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/7_nexus%20%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0%20%D0%BF%D0%BE%20master.jpg)
 
 13_тесты feature_add_reply
 
-!(13_тесты feature_add_reply)[]
+![13_тесты feature_add_reply](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/13_%D1%82%D0%B5%D1%81%D1%82%D1%8B%20feature_add_reply.jpg)
 
 17_повторная сботка master
 
-!(17_повторная сботка master)[]
+![17_повторная сборка master](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/17_%D0%BF%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0%20master.jpg)
 
 17_nexus повторная сборка по master
 
-!(17_nexus повторная сборка по master)[]
+![17_nexus повторная сборка по master](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/17_nexus%20%D0%BF%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0%20%D0%BF%D0%BE%20master.jpg)
 
 
 

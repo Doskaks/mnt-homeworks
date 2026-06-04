@@ -39,7 +39,7 @@ https://github.com/Doskaks/example-teamcity/tree/master
 
 1_2 fork autodetect
 
-!(1_2 fork autodetect)[]
+!(1_2 fork autodetect)[https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/09-ci-05-teamcity/1_2%20fork%20autodetect.jpg]
 
 3_первая сборка
 

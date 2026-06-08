@@ -104,17 +104,17 @@ P.S.: если при запуске некоторые контейнеры б�
 
 Для выполнения задания приведите скриншот с отображением метрик утилизации cpu из веб-интерфейса.
 #
-9. Изучите список [telegraf inputs](https://github.com/influxdata/telegraf/tree/master/plugins/inputs). 
-Добавьте в конфигурацию telegraf следующий плагин - [docker](https://github.com/influxdata/telegraf/tree/master/plugins/inputs/docker):
+9. Изучите список telegraf inputs. Добавьте в конфигурацию telegraf следующий плагин - docker:
+
 ```
 [[inputs.docker]]
   endpoint = "unix:///var/run/docker.sock"
 ```
 
-Дополнительно вам может потребоваться донастройка контейнера telegraf в `docker-compose.yml` дополнительного volume и 
-режима privileged:
+Дополнительно вам может потребоваться донастройка контейнера telegraf в docker-compose.yml дополнительного volume и режима privileged:
+
 ```
-  telegraf:
+    telegraf:
     image: telegraf:1.4.0
     privileged: true
     volumes:
@@ -128,8 +128,7 @@ P.S.: если при запуске некоторые контейнеры б�
       - "8125:8125/udp"
 ```
 
-После настройке перезапустите telegraf, обновите веб интерфейс и приведите скриншотом список `measurments` в 
-веб-интерфейсе базы telegraf.autogen . Там должны появиться метрики, связанные с docker.
+После настройке перезапустите telegraf, обновите веб интерфейс и приведите скриншотом список measurments в веб-интерфейсе базы telegraf.autogen . Там должны появиться метрики, связанные с docker.
 
 Факультативно можете изучить какие метрики собирает telegraf после выполнения данного задания.
 

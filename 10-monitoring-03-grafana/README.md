@@ -31,10 +31,10 @@
 
 Согласно требания повышенного задания указываю ссылку на все файлы:
 
-*****
+https://github.com/Doskaks/mnt-homeworks/tree/MNT-video/10-monitoring-03-grafana/grafana/monitoring
 
 
-![1_grafana+prometheus]()
+![1_grafana+prometheus](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-03-grafana/1_grafana%2Bprometheus.jpg)
 
 
 
@@ -66,7 +66,7 @@ Load Average 1m, 5m, 15m: node_load1  /  node_load5  /  node_load15
 
 Свободное место на диске: node_filesystem_avail_bytes{mountpoint="/", fstype!~"tmpfs|devtmpfs"} / 1073741824
 
-![Dashboard]()
+![Dashboard](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-03-grafana/2_dashboards%20grafana.jpg)
 
 
 ## Задание 3
@@ -77,7 +77,7 @@ Load Average 1m, 5m, 15m: node_load1  /  node_load5  /  node_load15
 
 ### Решение 3
 
-![3_grafana+alert]()
+![3_grafana+alert](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-03-grafana/3_dashboards%20alert.jpg)
 
 
 ## Задание 4
@@ -90,7 +90,7 @@ Load Average 1m, 5m, 15m: node_load1  /  node_load5  /  node_load15
 
 JSON MODEL:
 
-
+https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-03-grafana/JSON%20MODEL.json
 
 
 ---

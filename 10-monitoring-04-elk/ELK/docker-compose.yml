@@ -1,9 +1,3 @@
-##Предварительно выполнить на Linux хосте команду: sudo sysctl -w vm.max_map_count=262144
-##https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_set_vm_max_map_count_to_at_least_262144
-#
-##kibana address: http://127.0.0.1:5601 будет доступно через ~1-2 мин
-#
-#
 version: '2.2'
 services:
 
@@ -13,9 +7,9 @@ services:
     environment:
       - node.name=es-hot
       - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es-hot,es-warm
-      - cluster.initial_master_nodes=es-hot,es-warm
-      - node.roles=master,data_content,data_hot  
+      - discovery.seed_hosts=es-warm
+      - cluster.initial_master_nodes=es-hot
+      - node.roles=master,data_content,data_hot
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "http.host=0.0.0.0"
       - xpack.security.enabled=false
@@ -32,8 +26,6 @@ services:
       - 9200:9200
     networks:
       - elastic
-    depends_on:
-      - es-warm
 
   es-warm:
     image: elasticsearch:8.7.0
@@ -41,9 +33,9 @@ services:
     environment:
       - node.name=es-warm
       - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es-hot,es-warm
-      - cluster.initial_master_nodes=es-hot,es-warm
-      - node.roles=master,data_warm
+      - discovery.seed_hosts=es-hot
+      - cluster.initial_master_nodes=es-hot
+      - node.roles=data_warm
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - xpack.security.enabled=false
       - "http.host=0.0.0.0"
@@ -79,11 +71,11 @@ services:
     environment:
       - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
     ports:
-      - 5046:5046
       - 5044:5044
+      - 5046:5046
     volumes:
       - ./configs/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:Z
-      - ./configs/logstash.yml:/opt/logstash/config/logstash.yml:Z
+      - ./configs/logstash.yml:/usr/share/logstash/config/logstash.yml:Z
     networks:
       - elastic
     depends_on:
@@ -111,13 +103,13 @@ services:
     volumes:
       - ./pinger/:/opt/:Z
     entrypoint: python3 /opt/run.py
+    networks:
+      - elastic
 
 volumes:
   data01:
     driver: local
   data02:
-    driver: local
-  data03:
     driver: local
 
 networks:

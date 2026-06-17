@@ -46,9 +46,9 @@ Filebeat следует сконфигурировать для отправки
 
 ## Решение 1
 
-![1_docker ps]()
+![1_docker ps](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-04-elk/1_docker%20ps.jpg)
 
-![1_elastic]()
+![1_elastic](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-04-elk/1_elastic.jpg)
 
 
 ## Задание 2
@@ -63,11 +63,11 @@ Filebeat следует сконфигурировать для отправки
 
 ## Решение 2
 
-![2_Hmmm....something strange]()
+![2_Hmmm....something strange](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-04-elk/2_Hmmm....something%20strange.jpg)
 
-![2_OH NO!!!!!!]()
+![2_OH NO!!!!!!](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-04-elk/2_OH%20NO!!!!!!.jpg)
 
-![2_this is exception]()
+![2_this is exception](https://github.com/Doskaks/mnt-homeworks/blob/MNT-video/10-monitoring-04-elk/2_this%20is%20exception.jpg)
 
 ---
 
